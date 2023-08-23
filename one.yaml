@@ -1,0 +1,25 @@
+common:
+  service: changeme
+
+workspaces:
+  develop-us-east-1:
+    aws:
+      account_id: '005047304657'
+      role: InfraDeployAccess
+    account_name: nonprod
+    environment_name: develop
+    region: us-east-1
+  staging-us-east-1:
+    aws:
+      account_id: '005047304657'
+      role: InfraDeployAccess
+    account_name: nonprod
+    environment_name: staging
+    region: us-east-1
+  production-sa-east-1:
+    aws:
+      account_id: '739649339569'
+      role: InfraDeployAccess
+    account_name: prod
+    environment_name: production
+    region: sa-east-1
