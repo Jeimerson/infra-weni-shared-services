@@ -1,6 +1,6 @@
 # infra-weni-template
 
-[![Test](https://github.com/weni-ai/infra-weni-template/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/weni-ai/infra-weni-template/actions/workflows/test.yml)
+[![Test](https://github.com/weni-ai/infra-weni-template/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/weni-ai/infra-weni-template/actions/workflows/test.yml) [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit)](https://github.com/pre-commit/pre-commit)
 
 Template to fork and create terraform repos.
 
