@@ -27,4 +27,3 @@ jobs:
 
       - name: "Get Deleted Branches:"
         run: "echo 'Deleted branches: ${{ steps.delete_stuff.outputs.deleted_branches }}'"
-
