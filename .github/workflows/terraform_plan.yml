@@ -21,22 +21,22 @@ jobs:
 
       - name: Create .env.ci
         run: |
-          touch .env-${{ matrix.version }}.ci
-          if [ "${{ matrix.version }}" = "dev" ] ; then
-            echo MASTER_REGION=eu-central-1 >> .env-${{ matrix.version }}.ci
-            echo ACCOUNT='005047304657' >> .env-${{ matrix.version }}.ci
-            echo REGION=us-east-1 >> .env-${{ matrix.version }}.ci
-            echo WORKSPACE=develop-us-east-1 >> .env-${{ matrix.version }}.ci
-          elif [ "${{ matrix.version }}" = "stg" ] ; then
-            echo MASTER_REGION=eu-central-1 >> .env-${{ matrix.version }}.ci
-            echo ACCOUNT='005047304657' >> .env-${{ matrix.version }}.ci
-            echo REGION=us-east-1 >> .env-${{ matrix.version }}.ci
-            echo WORKSPACE=staging-us-east-1 >> .env-${{ matrix.version }}.ci
-          elif [ "${{ matrix.version }}" = "prod" ] ; then
-            echo MASTER_REGION=eu-central-1 >> .env-${{ matrix.version }}.ci
-            echo ACCOUNT='739649339569' >> .env-${{ matrix.version }}.ci
-            echo REGION=sa-east-1 >> .env-${{ matrix.version }}.ci
-            echo WORKSPACE=production-sa-east-1 >> .env-${{ matrix.version }}.ci
+          touch .env-${{ matrix.environment }}.ci
+          if [ "${{ matrix.environment }}" = "dev" ] ; then
+            echo MASTER_REGION=eu-central-1 >> .env-${{ matrix.environment }}.ci
+            echo ACCOUNT='005047304657' >> .env-${{ matrix.environment }}.ci
+            echo REGION=us-east-1 >> .env-${{ matrix.environment }}.ci
+            echo WORKSPACE=develop-us-east-1 >> .env-${{ matrix.environment }}.ci
+          elif [ "${{ matrix.environment }}" = "stg" ] ; then
+            echo MASTER_REGION=eu-central-1 >> .env-${{ matrix.environment }}.ci
+            echo ACCOUNT='005047304657' >> .env-${{ matrix.environment }}.ci
+            echo REGION=us-east-1 >> .env-${{ matrix.environment }}.ci
+            echo WORKSPACE=staging-us-east-1 >> .env-${{ matrix.environment }}.ci
+          elif [ "${{ matrix.environment }}" = "prod" ] ; then
+            echo MASTER_REGION=eu-central-1 >> .env-${{ matrix.environment }}.ci
+            echo ACCOUNT='739649339569' >> .env-${{ matrix.environment }}.ci
+            echo REGION=sa-east-1 >> .env-${{ matrix.environment }}.ci
+            echo WORKSPACE=production-sa-east-1 >> .env-${{ matrix.environment }}.ci
           fi
 
       - name: Import environment variables from a file
@@ -44,15 +44,15 @@ jobs:
         run: |
           while read line; do
             echo "$line" >> ${GITHUB_ENV}
-          done < .env-${{ matrix.version }}.ci
+          done < .env-${{ matrix.environment }}.ci
 
       - name: Upload .env.ci
         uses: actions/upload-artifact@v3
         with:
-          name: .env-${{ matrix.version }}.ci
-          path: .env-${{ matrix.version }}.ci
+          name: .env-${{ matrix.environment }}.ci
+          path: .env-${{ matrix.environment }}.ci
 
-      - name: ${{ matrix.version }} - make init plan
+      - name: ${{ matrix.environment }} - make init plan
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.SHARED_AK }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.SHARED_SK }}
@@ -62,7 +62,7 @@ jobs:
           TFPLAN_FILE: .terraform-plan-${{ env.WORKSPACE }}
         run: make init plan
 
-      - name: ${{ matrix.version }} - Save terraform plan
+      - name: ${{ matrix.environment }} - Save terraform plan
         uses: actions/upload-artifact@v3
         with:
           name: .terraform-plan-${{ env.WORKSPACE }}
