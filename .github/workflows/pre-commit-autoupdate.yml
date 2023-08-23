@@ -13,6 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v3
+      - uses: mfinelli/setup-shfmt@v2
       - uses: browniebroke/pre-commit-autoupdate-action@main
         env:
           SKIP: no-commit-to-branch
