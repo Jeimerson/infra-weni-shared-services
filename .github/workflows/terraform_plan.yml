@@ -1,0 +1,67 @@
+name: Terraform Plan
+
+on:
+  push:
+    branches:
+      - master
+      - main
+
+jobs:
+  terraform_plan:
+    name: Plan modifications
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        environment: ["dev", "stg", "prod"]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Create .env.ci
+        run: |
+          touch .env-${{ matrix.version }}.ci
+          if [ "${{ matrix.version }}" = "dev" ] ; then
+            echo MASTER_REGION=eu-central-1 >> .env-${{ matrix.version }}.ci
+            echo ACCOUNT='005047304657' >> .env-${{ matrix.version }}.ci
+            echo REGION=us-east-1 >> .env-${{ matrix.version }}.ci
+            echo WORKSPACE=develop-us-east-1 >> .env-${{ matrix.version }}.ci
+          elif [ "${{ matrix.version }}" = "stg" ] ; then
+            echo MASTER_REGION=eu-central-1 >> .env-${{ matrix.version }}.ci
+            echo ACCOUNT='005047304657' >> .env-${{ matrix.version }}.ci
+            echo REGION=us-east-1 >> .env-${{ matrix.version }}.ci
+            echo WORKSPACE=staging-us-east-1 >> .env-${{ matrix.version }}.ci
+          elif [ "${{ matrix.version }}" = "prod" ] ; then
+            echo MASTER_REGION=eu-central-1 >> .env-${{ matrix.version }}.ci
+            echo ACCOUNT='739649339569' >> .env-${{ matrix.version }}.ci
+            echo REGION=sa-east-1 >> .env-${{ matrix.version }}.ci
+            echo WORKSPACE=production-sa-east-1 >> .env-${{ matrix.version }}.ci
+          fi
+
+      - name: Import environment variables from a file
+        shell: bash
+        run: |
+          while read line; do
+            echo "$line" >> ${GITHUB_ENV}
+          done < .env-${{ matrix.version }}.ci
+
+      - name: Upload .env.ci
+        uses: actions/upload-artifact@v3
+        with:
+          name: .env-${{ matrix.version }}.ci
+          path: .env-${{ matrix.version }}.ci
+
+      - name: ${{ matrix.version }} - make init plan
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.SHARED_AK }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.SHARED_SK }}
+          AWS_ACCOUNT_ID: ${{ env.ACCOUNT }}
+          AWS_REGION: ${{ env.REGION }}
+          WORKSPACE: ${{ env.WORKSPACE }}
+          TFPLAN_FILE: .terraform-plan-${{ env.WORKSPACE }}
+        run: make init plan
+
+      - name: ${{ matrix.version }} - Save terraform plan
+        uses: actions/upload-artifact@v3
+        with:
+          name: .terraform-plan-${{ env.WORKSPACE }}
+          path: .terraform-plan-${{ env.WORKSPACE }}

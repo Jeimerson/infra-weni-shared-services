@@ -1,0 +1,52 @@
+name: Terraform Apply
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Workspace to apply (prod, stg, dev)'
+        required: true
+
+jobs:
+  terraform_apply:
+    name: Apply modifications (${{ github.event.inputs.environment }})
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Download .env-${{ github.event.inputs.environment }}.ci
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          workflow: terraform_plan.yml
+          workflow_conclusion: success
+          name: .env-${{ github.event.inputs.environment }}.ci
+
+      - name: Import environment variables from a file
+        shell: bash
+        run: |
+          while read line; do
+            echo "${line}" >> ${GITHUB_ENV}
+          done < .env-${{ github.event.inputs.environment }}.ci
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.SHARED_AK }}
+          aws-secret-access-key: ${{ secrets.SHARED_SK }}
+          aws-region: ${{ env.MASTER_REGION }}
+
+      - name: ${{ github.event.inputs.environment }} - Download TFPLAN
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          workflow: terraform_plan.yml
+          workflow_conclusion: success
+          name: .terraform-plan-${{ env.WORKSPACE }}
+
+      - name: ${{ github.event.inputs.environment }} - make apply
+        env:
+          AWS_ACCOUNT_ID: ${{ env.ACCOUNT }}
+          AWS_DEFAULT_REGION: ${{ env.REGION }}
+          WORKSPACE: ${{ env.WORKSPACE }}
+          TFPLAN_FILE: .terraform-plan-${{ env.WORKSPACE }}
+        run: make init apply
