@@ -10,7 +10,9 @@ jobs:
   terraform_plan:
     name: Plan modifications
     runs-on: ubuntu-latest
+    continue-on-error: true
     strategy:
+      fail-fast: false
       matrix:
         environment: ["dev", "stg", "prod"]
     steps:
