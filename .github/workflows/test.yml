@@ -1,4 +1,4 @@
-name: 'Test basic rules for Manifests'
+name: 'Test basic rules for terraform'
 
 on:
   push:
@@ -18,3 +18,5 @@ jobs:
       - uses: reviewdog/action-shfmt@v1
       - uses: actions/setup-python@v3
       - uses: pre-commit/action@v3.0.0
+        env:
+          SKIP: no-commit-to-branch
