@@ -27,7 +27,7 @@ WRITE SOME CODE HERE
 Enable pre-commig hook and pre-push:
 
 ```
-ln -s ../../utils/pre-push .git/hooks/pre-push
+ln -s ../../tools/pre-push .git/hooks/pre-push
 pip install pre-commit
 pre-commit install
 ```
@@ -43,7 +43,9 @@ No providers.
 
 ## Modules
 
-No modules.
+| Name | Source | Version |
+|------|--------|---------|
+| <a name="module_aaa"></a> [aaa](#module\_aaa) |  | n/a |
 
 ## Resources
 
