@@ -1,0 +1,36 @@
+# infra-weni-template
+
+[![Test](https://github.com/weni-ai/infra-weni-template/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/weni-ai/infra-weni-template/actions/workflows/test.yml)
+
+Template to fork and create terraform repos.
+
+#### Table of Contents
+
+1. [Usage](#usage)
+2. [Requirements](#requirements)
+3. [Providers](#providers)
+4. [Modules](#modules)
+5. [Resources](#resources)
+6. [Inputs](#inputs)
+7. [Outputs](#outputs)
+
+## Usage
+
+Some examples:
+
+```hcl
+WRITE SOME CODE HERE
+```
+
+### Contributing
+
+Enable pre-commig hook and pre-push:
+
+```
+ln -s ../../utils/pre-push .git/hooks/pre-push
+pip install pre-commit
+pre-commit install
+```
+
+<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
