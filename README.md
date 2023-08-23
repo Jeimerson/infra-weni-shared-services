@@ -43,9 +43,7 @@ No providers.
 
 ## Modules
 
-| Name | Source | Version |
-|------|--------|---------|
-| <a name="module_aaa"></a> [aaa](#module\_aaa) |  | n/a |
+No modules.
 
 ## Resources
 
