@@ -15,7 +15,7 @@ jobs:
       - name: actions-template-sync
         uses: AndreasAugustin/actions-template-sync@v1.1.1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.TOKEN_VCS }}
           source_repo_path: weni-ai/infra-weni-template
           #upstream_branch: <target_branch> # defaults to main
           #pr_labels: <label1>,<label2>[,...] # optional, no default
