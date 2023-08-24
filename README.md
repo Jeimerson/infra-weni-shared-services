@@ -24,13 +24,7 @@ WRITE SOME CODE HERE
 
 ### Contributing
 
-Enable pre-commig hook and pre-push:
-
-```
-ln -s ../../tools/pre-push .git/hooks/pre-push
-pip install pre-commit
-pre-commit install
-```
+See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
