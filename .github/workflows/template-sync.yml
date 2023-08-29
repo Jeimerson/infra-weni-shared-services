@@ -10,12 +10,16 @@ jobs:
 
     steps:
       # To use this repository's private action, you must check out the repository
+      #- name: Checkout
+      #  uses: actions/checkout@v3
       - name: Checkout
-        uses: actions/checkout@v3
+        run: |
+          git clone https://tonhaoweni:${{ secrets.TOKEN_VCS }}@github.com/${{ github.repository }} .
 
       - name: Get updates from template
         run: |
-          git pull https://tonhaoweni:${{ secrets.TOKEN_VCS }}@github.com/weni-ai/infra-weni-template.git
+          git pull
+          git pull https://tonhaoweni:${{ secrets.TOKEN_VCS }}@github.com/weni-ai/infra-weni-template
 
       - name: Push changes in repository
         run: |
