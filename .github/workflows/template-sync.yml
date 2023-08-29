@@ -12,10 +12,13 @@ jobs:
       # To use this repository's private action, you must check out the repository
       - name: Checkout
         uses: actions/checkout@v3
-      - name: actions-template-sync
-        uses: AndreasAugustin/actions-template-sync@v1.1.1
-        with:
-          github_token: ${{ secrets.TOKEN_VCS }}
-          source_repo_path: weni-ai/infra-weni-template
-          #upstream_branch: <target_branch> # defaults to main
-          #pr_labels: <label1>,<label2>[,...] # optional, no default
+
+      - name: Get updates from template
+        run: |
+          git pull https://tonhaoweni:{{ secrets.TOKEN_VCS }}@github.com/weni-ai/infra-weni-template.git
+
+      - name: Push changes in repository
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email github-actions[bot]@users.noreply.github.com
+          git push
