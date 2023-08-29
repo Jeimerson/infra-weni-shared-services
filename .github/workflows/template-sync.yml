@@ -15,7 +15,7 @@ jobs:
 
       - name: Get updates from template
         run: |
-          git pull https://tonhaoweni:{{ secrets.TOKEN_VCS }}@github.com/weni-ai/infra-weni-template.git
+          git pull https://tonhaoweni:${{ secrets.TOKEN_VCS }}@github.com/weni-ai/infra-weni-template.git
 
       - name: Push changes in repository
         run: |
