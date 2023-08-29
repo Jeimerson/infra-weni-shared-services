@@ -12,6 +12,10 @@ AWS AK to deploy.
 
 AWS SK to deploy.
 
+> **TOKEN_VCS**
+
+PAT to access child and template repository.
+
 ## Change files
 
 ## Terraform
