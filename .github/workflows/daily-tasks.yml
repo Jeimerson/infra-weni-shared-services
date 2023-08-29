@@ -1,0 +1,51 @@
+name: Daily repository actions
+
+on:
+  schedule:
+    - cron: "0 0 1 * *"
+  # manual trigger
+  workflow_dispatch:
+
+jobs:
+  sync-repo-template:
+    name: Sync with base template repository
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        run: |
+          git clone https://tonhaoweni:${{ secrets.TOKEN_VCS }}@github.com/${{ github.repository }} .
+
+      - name: Setup git
+        run: |
+          git config pull.rebase false
+          git config user.name github-actions[bot]
+          git config user.email github-actions[bot]@users.noreply.github.com
+
+      - name: Get updates from template
+        run: |
+          git pull
+          git pull https://tonhaoweni:${{ secrets.TOKEN_VCS }}@github.com/weni-ai/infra-weni-template
+
+      - name: Push changes in repository
+        run: |
+          git push
+
+  update-precommit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v3
+      - run: python -m pip install pre-commit
+        shell: bash
+      - run: pre-commit autoupdate
+        id: precommit-update
+        shell: bash
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          title: pre-commit autoupdate
+          branch: update/pre-commit
