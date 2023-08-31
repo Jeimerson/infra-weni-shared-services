@@ -1,4 +1,10 @@
 repos:
+  - repo: https://github.com/jumanjihouse/pre-commit-hook-yamlfmt
+    rev: 0.2.1
+    hooks:
+      - id: yamlfmt
+        args: [--mapping, '2', --sequence, '4', --offset, '2', --colons, --width, '150', --implicit_start, -p]
+
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
     hooks:
@@ -34,7 +40,7 @@ repos:
     rev: 3.0.0
     hooks:
       - id: shfmt
-        args: ['-l', '-i', '2', '-ci', '-sr', '-w']
+        args: [-l, -i, '2', -ci, -sr, -w]
       - id: shellcheck
 
   - repo: local
