@@ -51,6 +51,6 @@ jobs:
           title: pre-commit autoupdate
           branch: update/pre-commit
           body: Update pre-commit hook
-          team-reviewers: cloud
+          team-reviewers: weni-ai/cloud
           labels: pre-commit
           delete-branch: true
