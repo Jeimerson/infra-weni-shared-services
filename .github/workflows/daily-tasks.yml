@@ -50,3 +50,7 @@ jobs:
         with:
           title: pre-commit autoupdate
           branch: update/pre-commit
+          body: Update pre-commit hook
+          team-reviewers: cloud
+          labels: pre-commit
+          delete-branch: true
