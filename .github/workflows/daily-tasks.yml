@@ -8,6 +8,7 @@ on:
 
 jobs:
   sync-repo-template:
+    if: github.repository == 'weni-ai/infra-weni-template'
     name: Sync with base template repository
     runs-on: ubuntu-latest
 
